@@ -89,7 +89,7 @@ public class P0B {
     {
         //String of an odd length isn't a balanced string. 
         if(isOdd(s.length())) return false;
-        
+        //These indexers are used to the track the closing brackets '), ], }'
         Integer parenthesesIndexer, curlyIndexer, squareIndexer;
         parenthesesIndexer = curlyIndexer = squareIndexer = 0;
         
