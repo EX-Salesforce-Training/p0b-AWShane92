@@ -130,12 +130,12 @@ public class P0B {
 	//This method is used for the the brackertsAreBalanced method, returns true if an odd number is passed.
     public static Boolean isOdd(Integer n)
     {
-        while(n > 0)
-        {
-            if(n == 2) return false;           
-            n /= 2;     
-        }        
-        return true;
+        Decimal r = (Decimal) n; 
+        n /= 2; 
+        r /= (Decimal) 2;
+        
+        if(n == r) return false; //If both number being returned are integers then the number is an even number.
+       	else return true; 
     }
     
     public static void updateAccountSize()
