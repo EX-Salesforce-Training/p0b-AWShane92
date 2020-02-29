@@ -89,39 +89,67 @@ public class P0B {
     {
         //String of an odd length isn't a balanced string. 
         if(isOdd(s.length())) return false;
-        //These indexers are used to the track the closing brackets '), ], }'
+        //These indexers are used to the track the count of the brackets from the center.  
         Integer parenthesesIndexer, curlyIndexer, squareIndexer;
-        parenthesesIndexer = curlyIndexer = squareIndexer = 0;
+        parenthesesIndexer = curlyIndexer = squareIndexer = s.length()/2;
         
         Boolean isBalanced;
         
-        for(Integer i = 0; i < s.length(); i++)
+        for(Integer i = s.length()/2 - 1; i > -1; i--)
         {
             switch on s.charAt(i)
             {
-                when 40
+                when 40, 41
                 {    
-                    //In the case the char is '(' find the closing bracket and determine if it's balanced.
-                    parenthesesIndexer = s.indexOfChar(41,parenthesesIndexer);
-                    isBalanced = parenthesesIndexer  > -1 ? isOdd(parenthesesIndexer - i): false;
-                    parenthesesIndexer++;
+                    if(s.charAt(i) == 40)
+                    {
+                      	//In the case the char is '(' find the closing bracket and determine if it's balanced.
+                    	parenthesesIndexer = s.indexOfChar(41,parenthesesIndexer);
+                    	isBalanced = parenthesesIndexer  > -1 ? isOdd(parenthesesIndexer - i): false;
+                    	parenthesesIndexer++;  
+                    }
+                    else
+                    {
+                        //In the case the char is ')' find the opening bracket and determine if it's balanced.
+                    	parenthesesIndexer = s.indexOfChar(40,parenthesesIndexer);
+                    	isBalanced = parenthesesIndexer  > -1 ? isOdd(parenthesesIndexer - i): false;
+                    	parenthesesIndexer++; 
+                    }                   
                 }
-                when 91
-                {	
-                    //In the case the char is '[' find the closing bracket and determine if it's balanced. 
-                    squareIndexer = s.indexOfChar(93,squareIndexer);
-                    isBalanced = squareIndexer > -1 ? isOdd(squareIndexer - i): false;
-                    squareIndexer++;
+                when 91, 93
+                {	                   
+                    if(s.charAt(i) == 91)
+                    {
+                    	//In the case the char is '[' find the closing bracket and determine if it's balanced. 
+                    	squareIndexer = s.indexOfChar(93,squareIndexer);
+                    	isBalanced = squareIndexer > -1 ? isOdd(squareIndexer - i): false;
+                    	squareIndexer++;  
+                    }
+                    else
+                    {
+                        //In the case the char is ']' find the opening bracket and determine if it's balanced. 
+                    	squareIndexer = s.indexOfChar(91,squareIndexer);
+                    	isBalanced = squareIndexer > -1 ? isOdd(squareIndexer - i): false;
+                    	squareIndexer++; 
+                    }                   
                 }
-                when 123
+                when 123, 125
                 {
-                    //In the case the char is '{' find the closing bracket and determine if it's balanced.
-                    curlyIndexer = s.indexOfChar(125,curlyIndexer);
-                    isBalanced = curlyIndexer > -1 ? isOdd(curlyIndexer - i): false;
-                    curlyIndexer++;
-                    
+                    if(s.charAt(i) == 123)
+                    {
+                    	//In the case the char is '{' find the closing bracket and determine if it's balanced.
+                    	curlyIndexer = s.indexOfChar(125,curlyIndexer);
+                    	isBalanced = curlyIndexer > -1 ? isOdd(curlyIndexer - i): false;
+                    	curlyIndexer++;
+                    }
+                    else
+                    {
+                        //In the case the char is '}' find the opening bracket and determine if it's balanced.
+                    	curlyIndexer = s.indexOfChar(123,curlyIndexer);
+                    	isBalanced = curlyIndexer > -1 ? isOdd(curlyIndexer - i): false;
+                    	curlyIndexer++;                        
+                    }    
                 }
-                when 41, 93, 125 { continue;} //skip all the closing brackets '), ], }'
                 when else { break; }
             }
         }       
@@ -144,15 +172,20 @@ public class P0B {
         
         for(Account acc : accounts)
         {
-            if(1 <= acc.NumberOfEmployees && acc.NumberOfEmployees <= 1000) acc.Size__c = 'small';
+            if(1 <= acc.NumberOfEmployees && acc.NumberOfEmployees <= 1000) acc.Size__c = 'Small';
             
-            if(1001 <= acc.NumberOfEmployees && acc.NumberOfEmployees <= 10000) acc.Size__c = 'medium';
+            if(1001 <= acc.NumberOfEmployees && acc.NumberOfEmployees <= 10000) acc.Size__c = 'Medium';
             
-            if(10000 < acc.NumberOfEmployees) acc.Size__c = 'large';
+            if(10000 < acc.NumberOfEmployees) acc.Size__c = 'Large';
             
-			System.debug(acc.Name + ' ' + acc.Size__c + ' ' + acc.NumberOfEmployees);			            
-        }
-        
-        
+            try
+            {
+                update acc;
+            }
+            catch(System.DMLException e)
+            {
+                System.debug(acc.Name + ' ' + acc.Size__c + ' ' + acc.NumberOfEmployees);
+            }					            
+        }     
     }   
 }
