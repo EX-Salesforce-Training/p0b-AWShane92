@@ -1,223 +1,189 @@
-/////////////////////////////////////////////////////////////////
-//
-// Name: Project 0 Bravo
-// Author: Akeem Shane (awshane420@gmail.com)
-// Date: 02/24/2020
-// Description: Series of apex methods to demonstrate
-// basic understanding of coding concepts.
-//
-/////////////////////////////////////////////////////////////////
-
-public class P0B {
+@isTest
+public class P0B_Test {
     
-    // Returns the nth number in the Fibonnaci sequence using recursion
-	public static Integer nFibonnaci(Integer n)
+    @isTest
+    public static void nFibonnaciTest()
     {
-        if(n == 0) return 0;
-        if(n == 1) return 1;
+        Integer fib = P0B.nFibonnaci(0);
+        System.assertEquals(0, fib);
         
-        return nFibonnaci(n - 1) + nFibonnaci(n - 2); //recursive algorithm.
+        fib = P0B.nFibonnaci(1);
+        System.assertEquals(1, fib);
+        
+        fib = P0B.nFibonnaci(2);
+        System.assertEquals(1, fib);
+        
+        fib = P0B.nFibonnaci(10);
+        System.assertEquals(55, fib);
     }
     
-    //Returns a sorted integer array/list using bubblesort
-    public static Integer[] sortArray(Integer[] intList)
+    @isTest
+    public static void sortArrayTest()
     {
-        Integer temp = 0;
-        Boolean sorted = false;
+        Integer[] testArray = P0B.sortArray(new List<Integer>{2,4,5,1,3,1});
+        System.assertEquals(new List<Integer>{1,1,2,3,4,5},testArray);
         
-        //Sorting Algorithm.
-        while(!sorted)
+        testArray = P0B.sortArray(new List<Integer>{5,4,3,2,1});
+        System.assertEquals(new List<Integer>{1,2,3,4,5}, testArray);
+    }
+    
+    @isTest
+    public static void nFactorialTest()
+    {
+       	Integer factorial = P0B.nFactorial(0);
+       	System.assertEquals(1, factorial);
+        
+        factorial = P0B.nFactorial(1);
+        System.assertEquals(1, factorial);
+        
+        factorial = P0B.nFactorial(3);
+        System.assertEquals(6, factorial);    
+    }
+    
+    @isTest
+    public static void rotateLeftNTimesTest()
+    {
+        Integer[] testArray = P0B.rotateLeftNTimes(new List<Integer>{1,2,3,4,5}, 1);
+        System.assertEquals(new List<Integer>{2,3,4,5,1}, testArray);
+        
+        testArray = P0B.rotateLeftNTimes(new List<Integer>{1,2,3,4,5}, 6);
+        System.assertEquals(new List<Integer>{2,3,4,5,1}, testArray);
+        
+        testArray = P0B.rotateLeftNTimes(new List<Integer>{1,2,3,4,5}, 3);
+        System.assertEquals(new List<Integer>{4,5,1,2,3}, testArray);       
+    }
+    
+    @isTest
+    public static void bracketsAreBalancedTest()
+    {
+        Boolean isBalanced = P0B.bracketsAreBalanced('()');
+        System.assertEquals(true, isBalanced);
+        
+        isBalanced = P0B.bracketsAreBalanced('()()');
+        System.assertEquals(true, isBalanced);
+        
+        isBalanced = P0B.bracketsAreBalanced('(())');
+        System.assertEquals(true, isBalanced);
+        
+        isBalanced = P0B.bracketsAreBalanced('({[]})');
+        System.assertEquals(true, isBalanced);
+        
+        isBalanced = P0B.bracketsAreBalanced('(');
+        System.assertEquals(false, isBalanced);
+        
+        isBalanced = P0B.bracketsAreBalanced(')');
+        System.assertEquals(false, isBalanced);
+        
+        isBalanced = P0B.bracketsAreBalanced('(()');
+        System.assertEquals(false, isBalanced);
+        
+        isBalanced = P0B.bracketsAreBalanced('([)]');
+        System.assertEquals(false, isBalanced);
+    }
+    
+    @isTest
+    public static void isOddTest()
+    {
+        Boolean isOdd = P0B.isOdd(10);
+        System.assertEquals(false, isOdd);
+        
+        isOdd = P0B.isOdd(9);
+        System.assertEquals(true, isOdd);
+    }
+    @isTest
+    public static void updateAccountSizeTest()
+    {
+        List<Account> accounts = new List<Account>();
+        Integer ne = 500;
+        
+        for(Integer i = 1; i <= 100; i++)
         {
-            sorted = true; //assuming that the list is sorted.
-            for(Integer i = 0; i < intList.size() - 1; i++)
-        	{
-           		if(intList[i] > intList[i + 1])
-            	{
-                	temp = intList[i];
-                	intList[i] = intList[i + 1];
-                	intList[i + 1] = temp;
-                    sorted = false; //assumes the list is still unsorted.
-            	}
-        	}          
-        }
-        return intList;
-    }
-    
-    //Returns the factorial of the integer using recursion.
-    public static Integer nFactorial(Integer n)
-    {
-        if(n == 0 || n == 1) return 1; //Base case.
-        
-        return n * nFactorial(n - 1); //recursive algorithm.
-    }
-    
-    //Shifts the elements in an Array left by the specified number of times. 
-    public static Integer[] rotateLeftNTimes(Integer[] iArray, Integer n)
-    {
-        Integer remainder, length = iArray.size();
-        Integer[] shiftedArray = new Integer[length];
-        
-        /* If n is greater than the lenght of the array, sets n to the difference.
-         * This is allowed because if we shift the elements of the array by the size of the
-         * array then all the elements would be in the same position. Thus the remainder 
-         * will be the required shifts necessary. 
-		 */
-        while(n >= length) n-= length;
-        //If the elements shifted to left is 0 return the array.
-        if(n == 0) return iArray;
-                    
-        for(Integer i = 0; i < length; i++)
-        {
-            /* Determines if the element to be shifted left is out-of-bounds 
-			 * and if so then count from the right the new position. Else insert
-			 * into the new array normally.
-			 */
-           if(i - n < 0)
-           {
-               shiftedArray[length - (n - i)] = iArray[i]; 
-           }
-           else
-           {
-            	shiftedArray[i - n] = iArray[i];    
-           }
-        }      
-        return shiftedArray;
-    }
-    /* Determines if a string of brackets are balanced or not. 
-     */
-    public static Boolean bracketsAreBalanced(String s)
-    {
-        //String of an odd length isn't a balanced string. 
-        if(isOdd(s.length())) return false;
-        //These indexers are used to the track the count of the brackets from the center.  
-        Integer parenthesesIndexer, curlyIndexer, squareIndexer;
-        parenthesesIndexer = curlyIndexer = squareIndexer = s.length()/2;
-        
-        Boolean isBalanced;
-        
-        for(Integer i = s.length()/2 - 1; i > -1; i--)
-        {
-            switch on s.charAt(i)
+            if(i == 33 || i == 66)
             {
-                when 40, 41
-                {    
-                    if(s.charAt(i) == 40)
-                    {
-                      	//In the case the char is '(' find the closing bracket and determine if it's balanced.
-                    	parenthesesIndexer = s.indexOfChar(41,parenthesesIndexer);
-                    	isBalanced = parenthesesIndexer  > -1 ? isOdd(parenthesesIndexer - i): false;
-                    	parenthesesIndexer++;  
-                    }
-                    else
-                    {
-                        //In the case the char is ')' find the opening bracket and determine if it's balanced.
-                    	parenthesesIndexer = s.indexOfChar(40,parenthesesIndexer);
-                    	isBalanced = parenthesesIndexer  > -1 ? isOdd(parenthesesIndexer - i): false;
-                    	parenthesesIndexer++; 
-                    }                   
-                }
-                when 91, 93
-                {	                   
-                    if(s.charAt(i) == 91)
-                    {
-                    	//In the case the char is '[' find the closing bracket and determine if it's balanced. 
-                    	squareIndexer = s.indexOfChar(93,squareIndexer);
-                    	isBalanced = squareIndexer > -1 ? isOdd(squareIndexer - i): false;
-                    	squareIndexer++;  
-                    }
-                    else
-                    {
-                        //In the case the char is ']' find the opening bracket and determine if it's balanced. 
-                    	squareIndexer = s.indexOfChar(91,squareIndexer);
-                    	isBalanced = squareIndexer > -1 ? isOdd(squareIndexer - i): false;
-                    	squareIndexer++; 
-                    }                   
-                }
-                when 123, 125
-                {
-                    if(s.charAt(i) == 123)
-                    {
-                    	//In the case the char is '{' find the closing bracket and determine if it's balanced.
-                    	curlyIndexer = s.indexOfChar(125,curlyIndexer);
-                    	isBalanced = curlyIndexer > -1 ? isOdd(curlyIndexer - i): false;
-                    	curlyIndexer++;
-                    }
-                    else
-                    {
-                        //In the case the char is '}' find the opening bracket and determine if it's balanced.
-                    	curlyIndexer = s.indexOfChar(123,curlyIndexer);
-                    	isBalanced = curlyIndexer > -1 ? isOdd(curlyIndexer - i): false;
-                    	curlyIndexer++;                        
-                    }    
-                }
-                when else { break; }
+                ne*=10;
+            }           
+            accounts.add(new Account(Name = 'TestAccount: ' + i, NumberOfEmployees = ne));
+        }
+        insert accounts;
+        
+        Test.startTest();
+        //Verifying that before the code is run that all account's size is null
+        for(Account acc: accounts) System.assertEquals(null, acc.Size__c);
+        //Running code;
+        P0B.updateAccountSize();
+        Test.stopTest();
+        
+        for(Account acc: [SELECT Size__c, NumberOfEmployees FROM Account]) 
+        {
+            if(1 <= acc.NumberOfEmployees && acc.NumberOfEmployees <= 1000) System.assertEquals('Small', acc.Size__c);
+            
+            if(1001 <= acc.NumberOfEmployees && acc.NumberOfEmployees <= 10000) System.assertEquals('Medium', acc.Size__c);
+            
+            if(10000 < acc.NumberOfEmployees) System.assertEquals('Large', acc.Size__c);
+        }            
+    }
+    @isTest
+    public static void updateCALeadsTest()
+    {
+        List<Lead> leads = new List<Lead>();
+        String st = 'CA';
+        
+        for(Integer i = 1; i <= 100; i++)
+        {
+            if(i == 51) st = 'NY';
+            
+            leads.add(new Lead(LastName = 'TestCALead: ' + i, Company = 'Revature',
+                               Status = 'Open - Not Contacted', State = st));
+        }
+        insert leads;
+        
+        Test.startTest();
+        P0B.updateCALeads();
+        Test.stopTest();
+        
+        String leadStatus = 'Closed - Not Converted';
+        String description = 'We are no longer doing business in California';
+       
+        for(Lead l: [SELECT Name, Status, Description FROM Lead WHERE State LIKE 'CA'])
+        {
+            System.assertEquals(leadStatus, l.Status);
+            System.assertEquals(description, l.Description);
+        }
+        System.assertEquals(50, [SELECT count() FROM Lead WHERE State LIKE 'CA']);
+    }
+    @isTest
+    public static void closePastDueOpportunitiesTest()
+    {
+        List<Opportunity> opportunities = new List<Opportunity>();
+        Integer year = 2019;
+        
+        for(Integer i = 1; i <=100; i++)
+        {
+            if(i == 51) year++;
+            
+            opportunities.add(new Opportunity(Name = 'TestOpportunity: ' + i, 
+                                              StageName = 'Needs Analysis', CloseDate = Date.newInstance(year, 12, 31)));
+            
+        }
+        insert opportunities;
+        
+        Test.startTest();
+        P0B.closePastDueOpportunities();
+        Test.stopTest();
+        
+        String stage = 'Closed Lost';
+        Opportunity[] updatedOpportunities = [SELECT CloseDate, StageName FROM Opportunity];
+        
+        for(Opportunity o: updatedOpportunities)
+        {
+            if(o.CloseDate < Date.today())
+            {
+                System.assertEquals(stage, o.StageName);
             }
-        }       
-        return isBalanced;
-    }
-	//This method is used for the the brackertsAreBalanced method, returns true if an odd number is passed.
-    public static Boolean isOdd(Integer n)
-    {
-        Decimal r = (Decimal) n; 
-        n /= 2; 
-        r /= (Decimal) 2;
-        
-        if(n == r) return false; //If both number being returned are integers then the number is an even number.
-       	else return true; 
-    }
-    //This method queries all Accounts and sets the Size__c field to either 
-    //Small, Medium or Large depending on the NumberOfEmployees field.
-    public static void updateAccountSize()
-    {	
-        //Get the Name, Size__c, NumberOfEmployees from all accounts.
-		List<Account> accounts = [SELECT Name, Size__c,NumberOfEmployees FROM Account];
-        //Iterate thourgh the retrieved accounts and update the Size__c field.
-        for(Account acc : accounts)
-        {
-            if(1 <= acc.NumberOfEmployees && acc.NumberOfEmployees <= 1000) acc.Size__c = 'Small';
-            
-            if(1001 <= acc.NumberOfEmployees && acc.NumberOfEmployees <= 10000) acc.Size__c = 'Medium';
-            
-            if(10000 < acc.NumberOfEmployees) acc.Size__c = 'Large';            					            
-        }     
-		update accounts;
-    }
-    //This method queries the database for all Leads and
-    //if any Lead has an address in California it updates that 
-    //lead to 'Closed - Not Converted' and adds the description 
-    //'We are no longer doing business in California.'
-    public static void updateCALeads()
-    {	
-        /*** Initial attempt at using SOSL did return the accurate results, please review ***/
-        //List<List<sObject>> caQuery = [FIND 'CA' IN ALL FIELDS RETURNING Lead(Name, State, Status, Description)];
-    	//Lead[] leads  = (Lead[]) caQuery[0];
-        List<Lead> leads = [SELECT Name, State, Status, Description FROM Lead];
-                
-        for(Lead l : Leads)
-        {
-            //If the state is equal to CA the update the status and description of the lead.
-        	if(l.State == 'CA')
+            else
             {
-                l.Status = 'Closed - Not Converted';
-                l.Description = 'We are no longer doing business in California';
-            }            
-        }         
-        update leads;
-    }
-    //This method queries the database for all Opportunities that has a
-    //Stage that doesn't equal 'Closed Won' and is pass its Closed Date
-    //It then updates those Opportunities Stage to 'Closed Lost.'
-    public static void closePastDueOpportunities( ) 
-    {
-        //Querying of the database for all Opportunities with a StageName that doesn't equal 
-        //'Closed Won' and is pass its Closed Date. 
-        List<Opportunity> opportunities = [SELECT CloseDate, StageName FROM Opportunity 
-                                           WHERE StageName != 'Closed Won' AND CloseDate < :Date.today()];
-        
-        for(Opportunity opp: opportunities)
-        { 
-          opp.StageName = 'Closed Lost';
+                System.assertNotEquals(stage, o.StageName);
+            }
         }
-        update opportunities;
-	}
+    }
 }
