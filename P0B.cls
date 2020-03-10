@@ -150,7 +150,7 @@ public class P0B {
                     	curlyIndexer++;                        
                     }    
                 }
-                when else { break; }
+                when else { continue; }
             }
         }       
         return isBalanced;
